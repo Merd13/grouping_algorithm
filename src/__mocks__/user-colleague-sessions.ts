@@ -2,15 +2,15 @@ export const userColleagueSessions = [
   {
     user: 1,
     colleague: 2,
-    sessionCount: 1,
-    lastSession: '2022-08-01',
-    earliestGroupCreation: '2022-08-01T13:00:00Z',
+    sessionCount: 3,
+    lastSession: '2022-07-01',
+    earliestGroupCreation: '2022-08-01T13:00:00Z', // TODO remove this attribute
   },
   {
     user: 1,
     colleague: 3,
-    sessionCount: 1,
-    lastSession: '2022-08-01',
+    sessionCount: 2,
+    lastSession: '2022-06-01',
     earliestGroupCreation: '2022-08-01T13:00:00Z',
   },
   {

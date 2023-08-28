@@ -1,30 +1,48 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Algorithm: Create groups of users
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Approach: One Group per User per Execution
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Description:
+We want to create a program that receives a list of the users, a list of the previous groups and their creation date, and a user (participant) list, and per each user the count of sessions with all other users. Then it makes groups of 3 members each and groups the users. The program should try to group each user with the other users that haven’t met before. Until there’s no new user for a given user, then it will try to group the user with the other users that they have met least. And even between two options with the exact count, it prioritizes the one with the group's earliest creation date.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Inputs:
+- List of users
+  Example:
+  ```
+  users = [ { id: 1, name: 'John' }, { id: 2, name: 'Doe' }, { id: 3, name: 'Smith' }, { id: 4, name: 'Jane' }, { id: 5, name: 'Mary' } ]
+  ```
+
+- List of previous groups `previousGroupings`, and the creation date time of the group
+  Example:
+  ```
+  previousGroupings = [ { id: 1, name: 'Group 1', users: [1, 2, 3], creation: '2021-01-01T13:00:00Z', }, { id: 2, name: 'Group 2', users: [4, 5, 6], creation: '2021-04-01T18:00:00Z', } ]
+  ```
+
+User colleague session data
+Example: userColleagueSessions = [ { user: 1, colleague: 2, sessionCount: 1, lastSession: '2021-01-01', }, { user: 1, colleague: 3, sessionCount: 1, lastSession: '2021-01-01', }]
+
+
+## Output:
+  List of groups, where each group contains 3 members/ users
+
+
+## Steps:
+
+1. Initialize a list for new groups: Create a list `newGroups` that will store the new groups.
+
+2. Create a mapping for user sessions: Use the `userColleagueSessions` to build a dictionary where each key is a user, and the value is a list of tuples containing colleague, session count, and the earliest group creation date with that colleague.
+
+3. Sort users by sessions: For each user, sort their colleague information by session count (ascending) and by the earliest creation date (ascending) in case of a tie.
+
+4. Group users with unmet colleagues: Iterate through the list of users, and for each user, create a group with the first two unmet colleagues if possible. If a group is successfully created, add it to `newGroups` and continue with the next user.
+
+5. Group users with least-met colleagues: If there are no unmet colleagues for a user, try to create a group with the first two colleagues that have the least session count and earliest creation date. Add the group to `newGroups` if successful.
+
+6. Handle remaining users: If some users remain ungrouped, group them together as best as possible, following the same criteria. If necessary, modify existing groups or create new ones.
+
+7. Return new groups: Return the `newGroups` list, which contains the newly created groups of users.
+
 
 ## Installation
 
