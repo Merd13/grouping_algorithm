@@ -37,28 +37,8 @@ export class AppService {
     users.forEach((user) => {
       if (!userMasterMap[user.id]) userMasterMap[user.id] = {};
 
-      userMasterMap[user.id].metColleagues = userSessionsMapping[user.id];
-
-      userMasterMap[user.id].unmet = users
-        .map((colleague) => {
-          if (user.id !== colleague.id) {
-            const metColleagueIds = userMasterMap[user.id].metColleagues.map(
-              (colleague) => colleague.colleagueId,
-            );
-
-            if (!metColleagueIds.includes(colleague.id)) {
-              return {
-                id: colleague.id,
-                name: colleague.name,
-              };
-            }
-          }
-        })
-        .filter(Boolean);
-
-      userMasterMap[user.id].leastMetColleagues = userMasterMap[
-        user.id
-      ].metColleagues.sort(
+      // ------ met colleagues in order of least met -------
+      const metColleagues = userSessionsMapping[user.id].sort(
         (
           a: { sessionCount: number; latestSession: string },
           b: { sessionCount: number; latestSession: string },
@@ -73,6 +53,30 @@ export class AppService {
           return a.sessionCount - b.sessionCount;
         },
       );
+
+      // ------ unmet colleagues -------
+      const unmetColleagues = users
+        .map((colleague) => {
+          if (user.id !== colleague.id) {
+            const metColleagueIds = metColleagues.map(
+              (colleague) => colleague.colleagueId,
+            );
+
+            if (!metColleagueIds.includes(colleague.id)) {
+              return {
+                id: colleague.id,
+                name: colleague.name,
+              };
+            }
+          }
+        })
+        .filter(Boolean);
+
+      // -------- colleagues in order of least met ------------
+      userMasterMap[user.id].colleagues = [
+        ...unmetColleagues,
+        ...metColleagues,
+      ];
     });
 
     // Step 4: Group users with unmet colleagues
@@ -111,7 +115,7 @@ export class AppService {
     //   }
     // });
 
-    // // Step 6: Handle remaining users
+    // Handle remaining users
     // const remainingUsers = users.filter(
     //   (user) => !newGroups.some((group) => group.users.includes(user.id)),
     // );
