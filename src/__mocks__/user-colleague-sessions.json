@@ -1,10 +1,278 @@
 [
-  {"user": 1, "colleague": 2, "sessionCount": 3, "lastSession": "2022-07-01"},
-  {"user": 1, "colleague": 3, "sessionCount": 2, "lastSession": "2022-06-01"},
-  {"user": 2, "colleague": 3, "sessionCount": 1, "lastSession": "2022-08-01"},
-  {"user": 4, "colleague": 5, "sessionCount": 1, "lastSession": "2022-08-01"},
-  {"user": 4, "colleague": 6, "sessionCount": 1, "lastSession": "2022-08-01"},
-  {"user": 7, "colleague": 8, "sessionCount": 1, "lastSession": "2022-08-01"},
-  {"user": 7, "colleague": 9, "sessionCount": 1, "lastSession": "2022-08-01"},
-  {"user": 8, "colleague": 9, "sessionCount": 1, "lastSession": "2022-08-01"}
+  {
+    "user": 1,
+    "colleague": 2,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 1,
+    "colleague": 3,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 2,
+    "colleague": 3,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 4,
+    "colleague": 5,
+    "sessionCount": 3,
+    "lastSession": "2023-08-31T20:41:15.417Z"
+  },
+  {
+    "user": 4,
+    "colleague": 6,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 5,
+    "colleague": 6,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 7,
+    "colleague": 8,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 7,
+    "colleague": 9,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 8,
+    "colleague": 9,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 10,
+    "colleague": 11,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 10,
+    "colleague": 12,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 11,
+    "colleague": 12,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 13,
+    "colleague": 14,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 13,
+    "colleague": 15,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 14,
+    "colleague": 15,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 16,
+    "colleague": 17,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 16,
+    "colleague": 18,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:35:39.830Z"
+  },
+  {
+    "user": 17,
+    "colleague": 18,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 1,
+    "colleague": 4,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 1,
+    "colleague": 5,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 2,
+    "colleague": 6,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 2,
+    "colleague": 7,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 6,
+    "colleague": 7,
+    "sessionCount": 2,
+    "lastSession": "2023-08-31T20:41:15.416Z"
+  },
+  {
+    "user": 3,
+    "colleague": 8,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 3,
+    "colleague": 9,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 10,
+    "colleague": 13,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 10,
+    "colleague": 14,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 11,
+    "colleague": 15,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 11,
+    "colleague": 16,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 15,
+    "colleague": 16,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 12,
+    "colleague": 17,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 12,
+    "colleague": 18,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:39:33.334Z"
+  },
+  {
+    "user": 1,
+    "colleague": 6,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.416Z"
+  },
+  {
+    "user": 1,
+    "colleague": 7,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.416Z"
+  },
+  {
+    "user": 2,
+    "colleague": 4,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.417Z"
+  },
+  {
+    "user": 2,
+    "colleague": 5,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.417Z"
+  },
+  {
+    "user": 3,
+    "colleague": 10,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 3,
+    "colleague": 11,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 8,
+    "colleague": 12,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 8,
+    "colleague": 13,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 12,
+    "colleague": 13,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 9,
+    "colleague": 14,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 9,
+    "colleague": 15,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 16,
+    "colleague": 19,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 16,
+    "colleague": 20,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  },
+  {
+    "user": 19,
+    "colleague": 20,
+    "sessionCount": 1,
+    "lastSession": "2023-08-31T20:41:15.418Z"
+  }
 ]

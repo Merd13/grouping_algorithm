@@ -8,7 +8,7 @@ export class AppService {
   }
 
   createGroups() {
-    // Step 0: Read the users and userColleagueSessions from the JSON file
+    // Step 0: Read the users and userColleagueSessions  and groups from the JSON file
     const usersJSONPath = './src/__mocks__/users.json';
     const userColleagueSessionsJSONPath =
       './src/__mocks__/user-colleague-sessions.json';
@@ -20,6 +20,11 @@ export class AppService {
     );
     const users = JSON.parse(userJsonString);
     const userColleagueSessions = JSON.parse(userColleagueSessionsJsonString);
+
+    // Read the existing groups from the JSON file
+    const groupsJSONPath = './src/__mocks__/groups.json';
+    const groupsJsonString = fs.readFileSync(groupsJSONPath, 'utf-8');
+    const existingGroups = JSON.parse(groupsJsonString);
 
     // Step 1: Initialize a list for new groups
     const newGroups = [];
@@ -40,8 +45,6 @@ export class AppService {
         sessionCount,
         lastSession,
       });
-
-      // TODO For Colleague
     });
 
     const userMasterMap = {};
@@ -97,7 +100,6 @@ export class AppService {
     const userNewGroupMap = {};
     Object.keys(userMasterMap).forEach((id) => {
       const userId = parseInt(id);
-      console.log('-->', userMasterMap[userId]);
       // Check if user already have a group
       // If, yes, then skip
       // If, no, then create a group with two first colleagues
@@ -107,6 +109,9 @@ export class AppService {
         if (user.colleagues.length && user.colleagues.length > 1) {
           const firstColleague = user.colleagues[0];
           const secondColleague = user.colleagues[1];
+          // -------important-------
+          // TODO: Check if the firstColleague and secondColleague have already been picked in a group
+          // -------important-------
 
           // Create a new group
           const newGroup = {
@@ -139,11 +144,58 @@ export class AppService {
     });
 
     // Step 5: Handle remaining users
+    //    e.g. If user count = 5, we will have 1 group of 3 users, and 2 users without group, since group size is 3
 
-    // Step 6: Return the new groups and store the new groups
+    // Step 6: Update the sessionCount and lastSession in the user-colleague sessions
+    const processedPairs = new Set();
+    newGroups.forEach((group) => {
+      group.users.forEach((userId) => {
+        group.users.forEach((colleagueId) => {
+          if (userId !== colleagueId) {
+            const pairKey = [userId, colleagueId].sort().toString();
+            if (!processedPairs.has(pairKey)) {
+              const existingSession = userColleagueSessions.find(
+                (session) =>
+                  (session.user === userId &&
+                    session.colleague === colleagueId) ||
+                  (session.user === colleagueId &&
+                    session.colleague === userId),
+              );
 
-    //    // fs.writeFileSync(jsonPath, JSON.stringify(jsonData));
+              if (existingSession) {
+                existingSession.sessionCount++;
+                existingSession.lastSession = group.creation;
+              } else {
+                userColleagueSessions.push({
+                  user: userId,
+                  colleague: colleagueId,
+                  sessionCount: 1,
+                  lastSession: group.creation,
+                });
+              }
+              processedPairs.add(pairKey);
+            }
+          }
+        });
+      });
+    });
 
-    return { userNewGroupMap, newGroups };
+    // Combine existing groups and new groups
+    const updatedGroups = [...existingGroups, ...newGroups];
+
+    // Write back to the JSON file
+    fs.writeFileSync(
+      userColleagueSessionsJSONPath,
+      JSON.stringify(userColleagueSessions, null, 2),
+    );
+
+    fs.writeFileSync(groupsJSONPath, JSON.stringify(updatedGroups, null, 2));
+
+    return {
+      userAndTheirNewGroup: userNewGroupMap,
+      newGroups,
+      userColleagueSessions,
+      allCreatedGroups: updatedGroups,
+    };
   }
 }
