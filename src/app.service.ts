@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { users } from './__mocks__/users';
-import { userColleagueSessions } from './__mocks__/user-colleague-sessions';
+import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
@@ -9,6 +8,19 @@ export class AppService {
   }
 
   createGroups() {
+    // Step 0: Read the users and userColleagueSessions from the JSON file
+    const usersJSONPath = './src/__mocks__/users.json';
+    const userColleagueSessionsJSONPath =
+      './src/__mocks__/user-colleague-sessions.json';
+
+    const userJsonString = fs.readFileSync(usersJSONPath, 'utf-8');
+    const userColleagueSessionsJsonString = fs.readFileSync(
+      userColleagueSessionsJSONPath,
+      'utf-8',
+    );
+    const users = JSON.parse(userJsonString);
+    const userColleagueSessions = JSON.parse(userColleagueSessionsJsonString);
+
     // Step 1: Initialize a list for new groups
     const newGroups = [];
 
@@ -66,6 +78,8 @@ export class AppService {
               return {
                 id: colleague.id,
                 name: colleague.name,
+                sessionCount: 0,
+                latestSession: null,
               };
             }
           }
@@ -79,56 +93,57 @@ export class AppService {
       ];
     });
 
-    // Step 4: Group users with unmet colleagues
-    // users.forEach((user) => {
-    //   const colleaguesData = userSessionsMapping[user.id];
-    //   const unmetColleagues = colleaguesData.filter(
-    //     (c) => c.sessionCount === 0,
-    //   );
+    // Step 4: Create groups
+    const userNewGroupMap = {};
+    Object.keys(userMasterMap).forEach((id) => {
+      const userId = parseInt(id);
+      console.log('-->', userMasterMap[userId]);
+      // Check if user already have a group
+      // If, yes, then skip
+      // If, no, then create a group with two first colleagues
+      if (!userNewGroupMap[userId]) {
+        const user = userMasterMap[userId];
 
-    //   if (unmetColleagues.length >= 2) {
-    //     const group = {
-    //       users: [
-    //         user.id,
-    //         unmetColleagues[0].colleague,
-    //         unmetColleagues[1].colleague,
-    //       ],
-    //     };
-    //     newGroups.push(group);
-    //   }
-    // });
+        if (user.colleagues.length && user.colleagues.length > 1) {
+          const firstColleague = user.colleagues[0];
+          const secondColleague = user.colleagues[1];
 
-    // // Step 5: Group users with least-met colleagues
-    // users.forEach((user) => {
-    //   if (newGroups.some((group) => group.users.includes(user.id))) return;
+          // Create a new group
+          const newGroup = {
+            id: Math.floor(Math.random() * 1000),
+            users: [userId, firstColleague.id, secondColleague.id],
+            creation: new Date().toISOString(),
+          };
 
-    //   const colleaguesData = userSessionsMapping[user.id];
-    //   if (colleaguesData.length >= 2) {
-    //     const group = {
-    //       users: [
-    //         user.id,
-    //         colleaguesData[0].colleague,
-    //         colleaguesData[1].colleague,
-    //       ],
-    //     };
-    //     newGroups.push(group);
-    //   }
-    // });
+          // Add the new group to the list of new groups
+          newGroups.push(newGroup);
 
-    // Handle remaining users
-    // const remainingUsers = users.filter(
-    //   (user) => !newGroups.some((group) => group.users.includes(user.id)),
-    // );
-    // while (remainingUsers.length >= 3) {
-    //   const group = {
-    //     users: [
-    //       remainingUsers.pop().id,
-    //       remainingUsers.pop().id,
-    //       remainingUsers.pop().id,
-    //     ],
-    //   };
-    //   newGroups.push(group);
-    // }
-    return userMasterMap;
+          // Add the group to the users' group map
+          userNewGroupMap[userId] = newGroup.id;
+          userNewGroupMap[firstColleague.id] = newGroup.id;
+          userNewGroupMap[secondColleague.id] = newGroup.id;
+
+          // Removed picked users from the user.colleagues list
+          Object.keys(userMasterMap).forEach((uid) => {
+            userMasterMap[uid].colleagues = userMasterMap[
+              uid
+            ].colleagues.filter(
+              (colleague) =>
+                colleague.id !== firstColleague.id &&
+                colleague.id !== secondColleague.id &&
+                colleague.id !== userId,
+            );
+          });
+        }
+      }
+    });
+
+    // Step 5: Handle remaining users
+
+    // Step 6: Return the new groups and store the new groups
+
+    //    // fs.writeFileSync(jsonPath, JSON.stringify(jsonData));
+
+    return { userNewGroupMap, newGroups };
   }
 }
